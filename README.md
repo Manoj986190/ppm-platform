@@ -1,3 +1,4 @@
+
 # Personal Portfolio & Management Platform
 
 A full-stack enterprise-grade personal portfolio platform with:
@@ -16,3 +17,7 @@ A full-stack enterprise-grade personal portfolio platform with:
 - frontend-client/ → React portfolio
 - frontend-admin/ → Angular admin panel
 - docs/ → Documentation
+
+# ppm-platform
+Full-stack portfolio and admin management system
+
