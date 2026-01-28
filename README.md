@@ -1,23 +1,35 @@
+# Personal Portfolio & Management Platform (PPM)
 
-# Personal Portfolio & Management Platform
-
-A full-stack enterprise-grade personal portfolio platform with:
-- Public portfolio (React)
-- Admin management panel (Angular)
-- Secure backend (Spring Boot, JWT, RBAC)
+A full-stack personal portfolio and management system.
 
 ## Tech Stack
-- Backend: Java, Spring Boot, JPA, Security, JWT
-- Frontend Client: React, TypeScript, Tailwind
-- Frontend Admin: Angular, TypeScript
-- Database: PostgreSQL / MySQL
+- Backend: Java 17, Spring Boot, Spring Data JPA
+- Database: PostgreSQL
+- Frontend Client: React
+- Frontend Admin: Angular
 
 ## Project Structure
-- backend/ → Spring Boot APIs
-- frontend-client/ → React portfolio
+- backend/ → Spring Boot REST APIs
+- frontend-client/ → React portfolio UI
 - frontend-admin/ → Angular admin panel
 - docs/ → Documentation
 
-# ppm-platform
-Full-stack portfolio and admin management system
+## Sprint 1 Scope (Completed)
+- Spring Boot project initialized
+- Base package structure created
+- PostgreSQL database connected
+- User entity, repository and controller implemented
+- React project bootstrapped (frontend-client)
+- Angular project bootstrapped (frontend-admin)
+- Initial documentation added
 
+## Current Features
+- User API (create and fetch users)
+- Database auto table creation using JPA
+- REST API tested using Postman
+
+## Future Scope
+- Authentication & Authorization (JWT, Roles)
+- Admin dashboard
+- Portfolio pages
+- Payments, projects, skills modules
