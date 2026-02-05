@@ -1,6 +1,9 @@
-package com.ppm.backend.user;
+package com.ppm.backend.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -29,6 +32,12 @@ public class User {
     @NotBlank(message = "Password is required")
     @Column(nullable = false)
     private String passwordHash;
+
+    // @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    // private java.util.List<UserRole> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserRole> roles = new ArrayList<>();
 
     private String fullName;
 

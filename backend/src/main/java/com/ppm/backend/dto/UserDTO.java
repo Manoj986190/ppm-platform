@@ -1,4 +1,4 @@
-package com.ppm.backend.user.dto;
+package com.ppm.backend.dto;
 import java.time.LocalDateTime;
 
 public class UserDTO {
@@ -60,4 +60,5 @@ public class UserDTO {
         this.createdAt = createdAt;
     }
 }
+
 

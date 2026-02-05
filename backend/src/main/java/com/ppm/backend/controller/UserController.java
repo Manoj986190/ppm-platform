@@ -1,6 +1,7 @@
-package com.ppm.backend.user;
-
-import com.ppm.backend.user.dto.UserDTO;
+package com.ppm.backend.controller;
+import com.ppm.backend.dto.UserDTO;
+import com.ppm.backend.entity.User;
+import com.ppm.backend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,3 +35,4 @@ public class UserController {
         return userService.getUserById(id);
     }
 }
+
