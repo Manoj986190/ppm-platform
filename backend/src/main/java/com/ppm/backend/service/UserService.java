@@ -24,18 +24,22 @@ public class UserService {
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final SystemLogService systemLogService;
 
-    public UserService(UserRepository userRepository,
+    public UserService(
+            UserRepository userRepository,
             RoleRepository roleRepository,
             UserRoleRepository userRoleRepository,
             PasswordEncoder passwordEncoder,
-            JwtUtil jwtUtil) {
-
+            JwtUtil jwtUtil,
+            SystemLogService systemLogService
+    ) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
+        this.systemLogService = systemLogService;
     }
 
     // CREATE USER + bcrypt + ROLE_USER assign
@@ -68,17 +72,35 @@ public class UserService {
         return savedUser;
     }
 
-    // LOGIN
-    public String login(LoginRequest request) {
+    // LOGIN + AUDIT LOGGING
+    public String login(LoginRequest request, String ipAddress) {
 
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
+                .orElseThrow(() -> {
+                    systemLogService.log(
+                            request.getUsername(),
+                            "LOGIN_FAILED",
+                            "FAILED",
+                            "/api/auth/login",
+                            ipAddress
+                    );
+                    return new RuntimeException("Invalid username or password");
+                });
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
+
+            systemLogService.log(
+                    user.getUsername(),
+                    "LOGIN_FAILED",
+                    "FAILED",
+                    "/api/auth/login",
+                    ipAddress
+            );
+
             throw new RuntimeException("Invalid username or password");
         }
 
-        // ✅ SAFE role resolution (ADMIN has priority)
+        // ✅ SAFE role resolution (ADMIN > USER)
         String role = user.getRoles()
                 .stream()
                 .map(userRole -> userRole.getRole().getRoleName())
@@ -86,7 +108,15 @@ public class UserService {
                 .findFirst()
                 .orElse("ROLE_USER");
 
-        // ✅ Generate token with correct role
+        // ✅ LOGIN SUCCESS LOG
+        systemLogService.log(
+                user.getUsername(),
+                "LOGIN_SUCCESS",
+                "SUCCESS",
+                "/api/auth/login",
+                ipAddress
+        );
+
         return jwtUtil.generateToken(user.getUsername(), role);
     }
 
